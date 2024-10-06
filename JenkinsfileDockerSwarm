@@ -1,6 +1,6 @@
 node{
     stage("Git CheckOut"){
-        git url: 'https://github.com/simonLegah/UnityProject.git',branch: 'master'
+        git url: 'https://github.com/africaprocloud/UnityProject.git',branch: 'master'
     }
     
     stage(" Maven Clean Package"){
@@ -10,20 +10,20 @@ node{
     } 
     
     stage("Build Dokcer Image") {
-         sh "docker build -t mylandmarktech/spring-boot-mongo ."
+         sh "docker build -t africaprocloud/spring-boot-mongo ."
     }
     
     stage("Docker Push"){
         withCredentials([string(credentialsId: 'Docker_Hub_Pwd', variable: 'Docker_Hub_Pwd')]) {
-          sh "docker login -u mylandmarktech -p ${Docker_Hub_Pwd}"
+          sh "docker login -u africaprocloud -p ${Docker_Hub_Pwd}"
         }
-        sh "docker push mylandmarktech/spring-boot-mongo"
+        sh "docker push africaprocloud/spring-boot-mongo"
         
     }
     
     // Remove local image in Jenkins Server
     stage("Remove Local Image"){
-        sh "docker rmi -f mylandmarktech/spring-boot-mongo"
+        sh "docker rmi -f africaprocloud/spring-boot-mongo"
     }
     
     stage("Deploy to docker swarm cluster"){
